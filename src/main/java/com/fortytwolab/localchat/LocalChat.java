@@ -2,6 +2,10 @@ package com.fortytwolab.localchat;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonArray;
+
+import java.util.Scanner;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -11,20 +15,52 @@ public class LocalChat {
 
     public static void main(String[] args) throws Exception {
 
-        String url = "http://localhost:11434/api/chat";
+        Scanner sc = new Scanner(System.in);
 
-        String json = """
+        System.out.print("Digite sua mensagem: ");
+        String msg = sc.nextLine();
+
+        System.out.println();
+        System.out.println("Você: " + msg);
+
+        JsonObject mensagemJson = new JsonObject(); //Cria obj JSON vazio {}.
+
+        mensagemJson.addProperty("role", "user"); // Add ao JSON.
+        mensagemJson.addProperty("content", msg); 
+        //JsonObject mensagemJson representa uma mensagem da conversa.
+        
+        JsonArray mensagens = new JsonArray(); //Cria JSON [].
+        mensagens.add(mensagemJson); //Inseri a ensagem dentro desse array.
+        /**
+         * [
                 {
-                    "model": "llama3.2:3b",
-                    "messages": [
-                        {
-                            "role": "user",
-                            "content": "Explique em uma frase o que é orientação a objetos."
-                        }
-                    ],
-                    "stream": false
+                  "role": "user",
+                  "content": "Qual é a capital do Ceará?"
                 }
-                """;
+]           ]
+         */
+
+        JsonObject requisicaoJson = new JsonObject();// Cria outro obj JSON vazio {}.
+
+        requisicaoJson.addProperty("model", "llama3.2:3b");
+        requisicaoJson.add("messages", mensagens);
+        requisicaoJson.addProperty("stream", false);
+        /**
+         * {
+            "model": "llama3.2:3b",
+            "messages": [
+              {
+                "role": "user",
+                "content": "Qual é a capital do Ceará?"
+              }
+            ],
+            "stream": false
+          }
+         */
+
+        String json = requisicaoJson.toString(); //Converte para texto o corpo da requisição.
+
+        String url = "http://localhost:11434/api/chat";
 
         HttpClient cliente = HttpClient.newHttpClient();
 
@@ -38,10 +74,10 @@ public class LocalChat {
                 requisicao,
                 HttpResponse.BodyHandlers.ofString()
         );
-        
+
         JsonObject jsonResposta = JsonParser
-        .parseString(resposta.body())
-        .getAsJsonObject();
+                .parseString(resposta.body())
+                .getAsJsonObject();
 
         JsonObject mensagem = jsonResposta
                 .getAsJsonObject("message");
@@ -50,7 +86,6 @@ public class LocalChat {
                 .get("content")
                 .getAsString();
 
-        System.out.println("Resposta: " + conteudo);
-        //System.out.println("Resposta: " + resposta.body());
+        System.out.println("Assistente: " + conteudo);
     }
 }
