@@ -11,4 +11,12 @@
         <maven.compiler.target>17</maven.compiler.target>
         <exec.mainClass>com.fortytwolab.localchat.LocalChat</exec.mainClass>
     </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.13.2</version>
+        </dependency>
+    </dependencies>
 </project>
