@@ -105,7 +105,7 @@ Desenvolvimento inicial do LocalChat utilizando o Apache NetBeans e execução d
   - envio da mensagem digitada pelo usuário;
   - exibição de `Você` e `Assistente`.
 
-- [ ] **V0.3.0 — Chat contínuo**
+- [x] **V0.3.0 — Chat contínuo**
   - envio de várias mensagens;
   - estrutura de repetição;
   - comando para encerrar a conversa.
@@ -202,17 +202,16 @@ Evolução da interface gráfica utilizando JavaFX.
 
 ## 📌 Versão atual
 
-A versão atual é a **V0.2.0 — Entrada do usuário**.
+### V0.3.0 — Chat contínuo
 
-Nesta versão, o usuário pode digitar uma mensagem pelo terminal da IDE, que é convertida para JSON e enviada à API local do Ollama.
+A aplicação permite manter uma conversa contínua com o modelo
+`llama3.2:3b` por meio do Ollama.
 
-Exemplo:
+Nesta versão:
 
-```text
-Digite sua mensagem: O que é encapsulamento?
+- o usuário pode enviar várias mensagens durante a mesma execução;
+- cada mensagem gera uma nova requisição à API do Ollama;
+- o comando `sair` encerra o chat;
+- as mensagens anteriores ainda não são mantidas como contexto.
 
-Você: O que é encapsulamento?
-Assistente: Encapsulamento é...
-```
-
-Nesta etapa, o programa permite **uma mensagem por execução**. O chat contínuo será implementado na V0.3.0.
+A próxima versão, **V0.4.0**, adicionará histórico e contexto à conversa.
