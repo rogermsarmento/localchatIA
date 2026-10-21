@@ -110,10 +110,12 @@ Desenvolvimento inicial do LocalChat utilizando o Apache NetBeans e execução d
   - estrutura de repetição;
   - comando para encerrar a conversa.
 
-- [ ] **V0.4.0 — Histórico e contexto**
-  - armazenamento das mensagens;
+- [x] **V0.4.0 — Histórico e contexto**
+  - armazenamento das mensagens do usuário;
+  - armazenamento das respostas do assistente;
   - inclusão das mensagens anteriores na requisição;
-  - manutenção do contexto da conversa.
+  - utilização dos papéis `user` e `assistant`;
+  - manutenção do contexto durante a conversa.
 
 - [ ] **V0.5.0 — Modularização**
   - separação das responsabilidades;
@@ -202,16 +204,19 @@ Evolução da interface gráfica utilizando JavaFX.
 
 ## 📌 Versão atual
 
-### V0.3.0 — Chat contínuo
+### V0.4.0 — Histórico e contexto
 
-A aplicação permite manter uma conversa contínua com o modelo
-`llama3.2:3b` por meio do Ollama.
+A aplicação permite manter uma conversa contínua com o modelo `llama3.2:3b` por meio do Ollama, preservando o histórico das mensagens durante a execução.
 
 Nesta versão:
 
-- o usuário pode enviar várias mensagens durante a mesma execução;
-- cada mensagem gera uma nova requisição à API do Ollama;
-- o comando `sair` encerra o chat;
-- as mensagens anteriores ainda não são mantidas como contexto.
+- as mensagens do usuário são armazenadas durante a conversa;
+- as respostas do assistente também são adicionadas ao histórico;
+- as mensagens utilizam os papéis `user` e `assistant`;
+- o histórico completo é enviado ao Ollama a cada nova interação;
+- o modelo pode utilizar mensagens anteriores como contexto para gerar novas respostas;
+- o comando `sair` continua sendo utilizado para encerrar o chat.
 
-A próxima versão, **V0.4.0**, adicionará histórico e contexto à conversa.
+O histórico é mantido apenas durante a execução da aplicação. Ao encerrar o LocalChat, as mensagens armazenadas em memória são perdidas.
+
+A próxima versão, **V0.5.0**, realizará a modularização da aplicação, separando responsabilidades e preparando o código para a criação de novos métodos e classes.

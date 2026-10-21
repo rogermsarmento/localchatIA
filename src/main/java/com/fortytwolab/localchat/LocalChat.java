@@ -15,17 +15,19 @@ public class LocalChat {
 
     public static void main(String[] args) throws Exception {
 
-        Scanner sc = new Scanner(System.in);
-        String url = "http://localhost:11434/api/chat";
-        HttpClient cliente = HttpClient.newHttpClient();
-        
-        
         System.out.println("==========================");
         System.out.println("        LOCALCHAT");
         System.out.println("==========================");
         System.out.println("Digite 'sair' para encerrar.");
         System.out.println();
         
+        Scanner sc = new Scanner(System.in);
+        
+        String url = "http://localhost:11434/api/chat";
+        
+        HttpClient cliente = HttpClient.newHttpClient();
+    
+        JsonArray mensagens = new JsonArray();
         
         while(true){
             System.out.print("Digite sua mensagem: ");
@@ -39,13 +41,14 @@ public class LocalChat {
             System.out.println("Você: " + msg);
 
             JsonObject mensagemJson = new JsonObject(); 
+            
             mensagemJson.addProperty("role", "user"); 
             mensagemJson.addProperty("content", msg); 
 
-            JsonArray mensagens = new JsonArray(); 
             mensagens.add(mensagemJson); 
 
             JsonObject requisicaoJson = new JsonObject();
+            
             requisicaoJson.addProperty("model", "llama3.2:3b");
             requisicaoJson.add("messages", mensagens);
             requisicaoJson.addProperty("stream", false);
@@ -68,6 +71,13 @@ public class LocalChat {
             JsonObject mensagem = jsonResposta.getAsJsonObject("message");
 
             String conteudo = mensagem.get("content").getAsString();
+            
+            JsonObject mensagemAssistente = new JsonObject();
+
+            mensagemAssistente.addProperty("role", "assistant");
+            mensagemAssistente.addProperty("content", conteudo);
+
+            mensagens.add(mensagemAssistente);
 
             System.out.println("Assistente: " + conteudo);
             
